@@ -4,8 +4,9 @@
 
 - Tarefas do Domingo:
 
-- [] Popular o BD com seeders;
-  sequelize seed:generate --name users
+- [x] Popular o BD com seeders;
+
+  sequelize seed:generate --name clientes
   sequelize seed:generate --name lojas
   sequelize seed:generate --name produtos
 
@@ -21,6 +22,8 @@
 | `/cliente/:id/carrinho`          | `PUT`       | `Conclui compra - "realizada"`            |
 | `/cliente/:id/carrinho/:produto` | `DELETE`    | `Deleta item carrinho`                    |
 | `/vendedor`                      | `PUT`       | `Altera status da compra para "retirada"` |
+
+- [] Implementar o Swagger;
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)
 - [Gabriela Tavares](https://github.com/GabiTavaresV)

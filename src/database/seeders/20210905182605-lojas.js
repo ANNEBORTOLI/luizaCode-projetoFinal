@@ -2,6 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+
     await queryInterface.bulkInsert('Lojas', 
     [
       {
@@ -22,7 +23,9 @@ module.exports = {
       {
         nome: 'MagaLu Zona Sudeste'
       }
-], {});
+    ], 
+    {});
+
   },
 
   down: async (queryInterface, Sequelize) => {
