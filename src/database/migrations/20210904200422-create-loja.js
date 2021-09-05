@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Produtos', {
+    await queryInterface.createTable('Lojas', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,22 +10,6 @@ module.exports = {
       },
       nome: {
         type: Sequelize.STRING,
-        allowNull: false
-      },
-      marca: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      categoria: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      tipo: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      preco:{
-        type: Sequelize.DECIMAL(10,2),
         allowNull: false
       },
       createdAt: {
@@ -41,6 +25,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Produtos');
+    await queryInterface.dropTable('Lojas');
   }
 };
