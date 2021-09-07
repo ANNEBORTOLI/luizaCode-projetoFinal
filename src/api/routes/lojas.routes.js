@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { Loja } = require('../database/models')
+const { Loja } = require('../../database/models')
 
 /* GET lojas listing. */
 router.get('/', async function(req, res) {
   try {
-    const lojas = await Loja.findAll();
+    const lojas = await Loja.findAll({
+      attributes: {
+        exclude: [ "createdAt", "updatedAt" ]
+      }
+    });
     res.status(200).json(lojas)
   } catch (erro) {
     res.json({ message: erro.message })

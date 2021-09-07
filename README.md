@@ -2,14 +2,7 @@
 
 ## Membros
 
-- Tarefas do Domingo:
-
 - [x] Popular o BD com seeders;
-
-  sequelize seed:generate --name clientes
-  sequelize seed:generate --name lojas
-  sequelize seed:generate --name produtos
-
 - [] Criar Endpoints
 
 | EndPoints                        | Método HTTP | Descrição                                 |
@@ -23,7 +16,12 @@
 | `/cliente/:id/carrinho/:produto` | `DELETE`    | `Deleta item carrinho`                    |
 | `/vendedor`                      | `PUT`       | `Altera status da compra para "retirada"` |
 
+- [] Implementar middlewares de validação do cadastro do cliente (express-validator);
+- [] Implementar middlewares de autenticação;
+- [] Implementar session;
 - [] Implementar o Swagger;
+- [] Deixar o README.md bonitão; - Resumo da api; - Listar Tecnologias; - Manual de instalação; - Fotos do Swagger; - Testes
+- [] Fazer apresentação do PowerPoint;
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)
 - [Gabriela Tavares](https://github.com/GabiTavaresV)
