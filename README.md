@@ -1,27 +1,28 @@
 # Projeto Final: Omni Channel - Luiza<code>
 
-## Membros
+## Criação dos Endpoints
 
-- [x] Popular o BD com seeders;
-- [] Criar Endpoints
+| EndPoints                            | Método HTTP | Descrição                                 |
+| ------------------------------------ | ----------- | ----------------------------------------- |
+| [X] `/lojas`                         | `GET`       | `Listar todas as lojas`                   |
+| [X] `/produtos`                      | `GET`       | `Listar todos os produtos`                |
+| [X] `/cliente`                       | `POST`      | `Cadastrar um cliente`                    |
+| [X] `/cliente/:id/carrinho`          | `POST`      | `Add itens ao carrinho`                   |
+| [X] `/cliente/:id/carrinho/:produto` | `DELETE`    | `Deleta item carrinho`                    |
+| [X] `/cliente/:id/carrinho`          | `PUT`       | `Conclui compra - "realizada"`            |
+| [x] `/cliente/pedidos`               | `GET`       | `Listar todos os Pedidos do Cliente`      |
+| [x] `/pedidos/retirar`               | `PUT`       | `Altera status do pedido para "retirada"` |
+| [ ] `/login`                         | `POST`      | `Faz login do cliente`                    |
 
-| EndPoints                        | Método HTTP | Descrição                                 |
-| -------------------------------- | ----------- | ----------------------------------------- |
-| `/lojas`                         | `GET`       | `Listar todas as lojas`                   |
-| `/produtos`                      | `GET`       | `Listar todos os produtos`                |
-| `/cliente`                       | `POST`      | `Cadastrar um cliente`                    |
-| `/cliente/:id/carrinho`          | `GET`       | `Listar itens carrinho`                   |
-| `/cliente/:id/carrinho`          | `POST`      | `Add itens ao carrinho`                   |
-| `/cliente/:id/carrinho`          | `PUT`       | `Conclui compra - "realizada"`            |
-| `/cliente/:id/carrinho/:produto` | `DELETE`    | `Deleta item carrinho`                    |
-| `/vendedor`                      | `PUT`       | `Altera status da compra para "retirada"` |
+### TODO's
 
-- [] Implementar middlewares de validação do cadastro do cliente (express-validator);
-- [] Implementar middlewares de autenticação;
-- [] Implementar session;
+- [] Implementar middleware de validação do cadastro do cliente (express-validator);
+- [] Implementar middleware de autenticação com JWT;
 - [] Implementar o Swagger;
-- [] Deixar o README.md bonitão; - Resumo da api; - Listar Tecnologias; - Manual de instalação; - Fotos do Swagger; - Testes
+- [] Deixar o README.md bonitão;
 - [] Fazer apresentação do PowerPoint;
+
+## Membros
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)
 - [Gabriela Tavares](https://github.com/GabiTavaresV)
