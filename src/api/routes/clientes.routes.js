@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const ClienteController = require('../controllers/clientes.controller');
-
+const { validadorDeCadastro } = require('../middlewares/validadorDeCadastro')
 
 /* POST cadastra um novo cliente. */
-router.post('/', ClienteController.cadastra); 
+router.post('/', validadorDeCadastro, ClienteController.cadastra);
+
+/* TODO - POST Login um novo cliente. */
+
 
 /* ROTAS PARA CARRINHO DE COMPRAS */
 /* POST adiciona um produto no carrinho do cliente */
@@ -16,11 +19,10 @@ router.put('/:id/carrinho', ClienteController.finalizaCompra);
 /* GET lista de todos os pedidos do cliente com seus produtos */
 router.get('/:id/pedidos', ClienteController.listaPedidos);
 
-/* TODO - POST Login um novo cliente. */
+/* GET mostra produtos no carrinho do cliente */
+router.get('/:id/carrinho', ClienteController.listaCarrinho); 
 
-
-
-/* GET lista de todos os clientes cadastrados */
+/* APAGAR DEPOIS - GET lista de todos os clientes cadastrados */
 router.get('/', ClienteController.lista); 
 
 module.exports = router;

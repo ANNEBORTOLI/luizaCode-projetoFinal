@@ -1,4 +1,4 @@
-# Projeto Final: Omni Channel - Luiza<code>
+# Omni Channel - LuizaCode
 
 ## Criação dos Endpoints
 
@@ -9,6 +9,7 @@
 | [X] `/cliente`                       | `POST`      | `Cadastrar um cliente`                    |
 | [X] `/cliente/:id/carrinho`          | `POST`      | `Add itens ao carrinho`                   |
 | [X] `/cliente/:id/carrinho/:produto` | `DELETE`    | `Deleta item carrinho`                    |
+| [X] `/cliente/:id/carrinho`          | `GET`       | `Lista produtos no carrinho do cliente`   |
 | [X] `/cliente/:id/carrinho`          | `PUT`       | `Conclui compra - "realizada"`            |
 | [x] `/cliente/pedidos`               | `GET`       | `Listar todos os Pedidos do Cliente`      |
 | [x] `/pedidos/retirar`               | `PUT`       | `Altera status do pedido para "retirada"` |
@@ -16,7 +17,8 @@
 
 ### TODO's
 
-- [] Implementar middleware de validação do cadastro do cliente (express-validator);
+- [x] Implementar middleware de validação do cadastro do cliente (express-validator);
+- [] Implementar middleware de validação do login do cliente (express-validator);
 - [] Implementar middleware de autenticação com JWT;
 - [] Implementar o Swagger;
 - [] Deixar o README.md bonitão;
