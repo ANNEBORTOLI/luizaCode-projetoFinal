@@ -13,13 +13,13 @@
 | [X] `/cliente/:id/carrinho`          | `PUT`       | `Conclui compra - "realizada"`            |
 | [x] `/cliente/pedidos`               | `GET`       | `Listar todos os Pedidos do Cliente`      |
 | [x] `/pedidos/retirar`               | `PUT`       | `Altera status do pedido para "retirada"` |
-| [ ] `/login`                         | `POST`      | `Faz login do cliente`                    |
+| [x] `/login`                         | `POST`      | `Faz login do cliente`                    |
 
 ### TODO's
 
 - [x] Implementar middleware de validação do cadastro do cliente (express-validator);
-- [] Implementar middleware de validação do login do cliente (express-validator);
-- [] Implementar middleware de autenticação com JWT;
+- [x] Implementar middleware de validação do login do cliente (express-validator);
+- [x] Implementar middleware de autenticação com JWT;
 - [] Implementar o Swagger;
 - [] Deixar o README.md bonitão;
 - [] Fazer apresentação do PowerPoint;
@@ -32,7 +32,15 @@
 4. Finaliza Compra;
 5. Lista pedidos do cliente;
 
-6. Faz a retirada do produto na loja (precisa de auth e o usuário logado precisa ser admin);
+# Mensagens de Erro
+
+- [] Produto não encontrado: "Uai sô! Produto não cadastrado em nosso sistema!"
+- [] Carrinho Add item: "Eba! Produto adicionado no carrinho!"
+- [] Carrinho Remove item: "Bah tchê! Produto removido do carrinho!"
+- [] Carrinho Produto Repetido: "Eita! Tu já possui um item desse tipo no seu carrinho, visse!"
+- [] Finaliza compra: "Massa! Compra finalizada com sucesso!"
+- [] Cadastro OK: "Trilegal! Cliente cadastrado com sucesso!"
+- [] Cadastro NotOk: "Uai sô! Esse e-mail já está cadastrado em nosso sistema!"
 
 ## Membros
 
