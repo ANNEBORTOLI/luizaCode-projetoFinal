@@ -1,87 +1,86 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-
-      await queryInterface.bulkInsert('Produtos', 
+    await queryInterface.bulkInsert(
+      "Produtos",
       [
         {
-          nome: 'aspirador',
-          marca: 'arno',
-          categoria: 'aletroportáteis',
-          tipo: 'aspirador',
-          preco: 350
-         },
-         {
-          nome: 'monitor 21',
-          marca: 'samsung',
-          categoria: 'Informática',
-          tipo: 'monitor',
-          preco: 1449
-         },
-         {
-          nome: 't14',
-          marca: 'lenovo',
-          categoria: 'eletrônico',
-          tipo: 'notebook',
-          preco: 4350
-         },
-         {
-          nome: 'iphone 12',
-          marca: 'apple',
-          categoria: 'eletrônico',
-          tipo: 'smartphone',
-          preco: 8000
+          nome: "Robô Aspirador de Pó Inteligente Roomba® s9+ iRobot",
+          marca: "iRobot",
+          categoria: "eletrodomésticos",
+          tipo: "aspirador",
+          preco: 9449.99,
         },
         {
-          nome: 'Samsung S21',
-          marca: 'samsung',
-          categoria: 'eletrônico',
-          tipo: 'smartphone',
-          preco: 5600
+          nome: "Monitor Gamer Curvo Samsung 49",
+          marca: "Samsung",
+          categoria: "Acessórios e Inovação",
+          tipo: "monitor",
+          preco: 8899,
         },
         {
-        nome: 'brastemp active',
-        marca: 'brastemp',
-        categoria: 'eletrodoméstico',
-        tipo: 'geladeira',
-        preco: 4500
+          nome: "iMac de 24 polegadas",
+          marca: "Apple",
+          categoria: "eletrônico",
+          tipo: "computador",
+          preco: 22.599,
         },
         {
-          nome: 'brastemp side by side',
-          marca: 'brastemp',
-          categoria: 'eletrodoméstico',
-          tipo: 'geladeira',
-          preco: 12000
+          nome: "iPhone 12 Pro Max Apple 128GB",
+          marca: "Apple",
+          categoria: "Telefones e Celulares",
+          tipo: "smartphone",
+          preco: 8024.97,
         },
         {
-          nome: 'Tequila',
-          marca: 'Tequila',
-          categoria: 'bebidas alcoolicas',
-          tipo: 'bebidas',
-          preco: 80
+          nome: "Samsung Galaxy S21Ultra ",
+          marca: "samsung",
+          categoria: "Telefones e Celulares",
+          tipo: "smartphone",
+          preco: 6738.3,
         },
         {
-          nome: 'Vodka',
-          marca: 'Absolut',
-          categoria: 'bebidas alcoolicas',
-          tipo: 'bebidas',
-          preco: 119.9
+          nome: "Geladeira Smart Side by Side Inverter Inox",
+          marca: "LG",
+          categoria: "eletrodomésticos",
+          tipo: "geladeira",
+          preco: 4500,
         },
         {
-          nome: 'Caixa de Chocolate',
-          marca: 'lacta',
-          categoria: 'doces',
-          tipo: 'comida',
-          preco: 119.9
-        }
-      ], {});
-
+          nome: "Refrigerador Brastemp Side Inverse Evox",
+          marca: "Brastemp",
+          categoria: "eletrodoméstico",
+          tipo: "geladeira",
+          preco: 5.489,
+        },
+        {
+          nome: "Tequila Gran Patron Anejo 750 Ml",
+          marca: "Patron Anejo",
+          categoria: "Destilados, licores e coquetéis",
+          tipo: "bebidas",
+          preco: 5099.15,
+        },
+        {
+          nome: "Vodka Crystal Head Aurora 750 Ml",
+          marca: "Absolut",
+          categoria: "Destilados, licores e coquetéis",
+          tipo: "bebidas",
+          preco: 898,
+        },
+        {
+          nome: "Kit de Chocolate Belga Luckau",
+          marca: "Luckau",
+          categoria: "Mercado",
+          tipo: "chocolate",
+          preco: 690.48,
+        },
+      ],
+      {},
+    );
   },
 
   down: async (queryInterface, Sequelize) => {
-
-    await queryInterface.bulkDelete('Produtos', null, {});
-
-  }
+    await queryInterface.bulkDelete("Produtos", null, {});
+  },
 };
