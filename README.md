@@ -24,6 +24,16 @@
 - [] Deixar o README.md bonitão;
 - [] Fazer apresentação do PowerPoint;
 
+### Endpoints que o usuário precisa estar autenticado para acessar:
+
+1. Add produto ao carrinho,
+2. Remove produto do carrinho,
+3. Lista carrinho do cliente;
+4. Finaliza Compra;
+5. Lista pedidos do cliente;
+
+6. Faz a retirada do produto na loja (precisa de auth e o usuário logado precisa ser admin);
+
 ## Membros
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)

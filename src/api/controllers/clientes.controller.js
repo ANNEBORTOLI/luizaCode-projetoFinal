@@ -1,13 +1,13 @@
 const { Cliente, Pedido, Produto } = require('../../database/models');
 const { Op } = require('sequelize');
-const { validationResult } = require("express-validator");
-const jwt = require("jsonwebtoken");
-const JWTSecret = "mulheresincriveisdoluizacode";
+const { validationResult } = require('express-validator');
 
+//JWT TOKEN
+const jwt = require('jsonwebtoken');
+const JWTSecret = 'mulheresincriveisdoluizacode';
 
 class Controller {
-
-  /* Lista todos os Clientes */
+  /* DELETAR ESSA ROTA DEPOIS Lista todos os Clientes */
   async lista(req, res) {
     try {
       const clientes = await Cliente.findAll();
@@ -19,9 +19,10 @@ class Controller {
   /* Cadastra Clientes */
   async cadastra(req, res) {
     let errors = validationResult(req);
-    if(!errors.isEmpty()){
-      return res.status(400).json({ errors: errors.array() })
+    if(!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
+
     try {
       const [ cliente, cadastrado ] = await Cliente.findOrCreate({
         where: { email: req.body.email },
@@ -29,10 +30,10 @@ class Controller {
           nome: req.body.nome,
           senha: req.body.senha
         }
-      })
+      });
 
       if(cadastrado){
-        res.status(200).json({ message: "Cliente cadastrado com sucesso!" });
+        res.status(201).json({ message: "Cliente cadastrado com sucesso!" });
       } else {
         res.status(200).json({ message: 'Esse e-mail já está cadastrado!'});
       }
@@ -61,7 +62,7 @@ class Controller {
         // Se não existia um carrinho significa que o carrinho está vazio
         if(criado) {
           await carrinho.addProduto(produto);
-          res.status(200).json({ message: 'Produto adicionado no carrinho!'})
+          res.status(201).json({ message: 'Produto adicionado no carrinho!'});
         } else{
           // Verifica se tem outros produtos do mesmo tipo
           const produtosCarrinho = await carrinho.getProdutos({ where: { tipo: produto.tipo } });
@@ -69,16 +70,13 @@ class Controller {
           // Se produto do mesmo tipo existir no carrinho
           if(produtosCarrinho.length != 0){ 
             res.status(200).json({ message: 'Ops! Você já possui um item desse tipo no seu carrinho!'})
-
             // ou não existia um produto do mesmo tipo no carrinho.
           } else {
             await carrinho.addProduto(produto);
-            res.status(200).json({ message: 'Produto adicionado no carrinho!'})
+            res.status(201).json({ message: 'Produto adicionado no carrinho!'})
           }
         }
       }
-
-
   } catch (erro) {
       res.status(400).json({ message: erro.message });
     }
@@ -95,10 +93,39 @@ class Controller {
       });
       // Pega o produto que quer deletar pelo id
       const produto = await Produto.findByPk(req.body.id);
+      if(!produto){
+        return res.status(200).json({ message: "Produto não encontrado!"});
+      }
       // Remove o produto do carrinho
       await carrinho.removeProduto(produto);
       res.status(200).json({ message: "Produto removido do carrinho!"});
     } catch(erro){
+      res.status(400).json({ message: erro.message });
+    }
+  }
+  /* Lista os produtos no carrinho do cliente */
+  async listaCarrinho(req, res) {
+    try {
+      const carrinhoDoCliente = await Pedido.findAll({
+        where: {
+          id_cliente: req.params.id,
+          status: 'carrinho'
+        },
+        attributes: {
+          exclude: [ "createdAt", "updatedAt" ]
+        },
+        include: {
+          model: Produto,
+          through: {
+            attributes: []
+          },
+          attributes: {
+            exclude: [ "createdAt", "updatedAt" ]
+          }
+        }
+      });
+        res.status(200).json(carrinhoDoCliente);
+    } catch (erro) {
       res.status(400).json({ message: erro.message });
     }
   }
@@ -124,14 +151,9 @@ class Controller {
     } catch(erro){
       res.status(400).json({ message: erro.message });
     }
-
-
-    
-
   }
   /* Lista todos os Pedidos e Produtos do Clientes */
   async listaPedidos(req, res) {
-    // TODO - Incluir produtos na resposta
     try {
       const pedidosDoCliente = await Pedido.findAll({
         where: {
@@ -157,77 +179,47 @@ class Controller {
     } catch (erro) {
       res.status(400).json({ message: erro.message });
     }
-  }
+  } 
 
-   /* Lista os produtos no carrinho do cliente */
-   async listaCarrinho(req, res) {
-    try {
-      const carrinhoDoCliente = await Pedido.findAll({
+  async login(req, res) {
+    let errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try{
+      const { email, senha } = req.body;
+      //Procura um cliente no cadastrado no banco de dados
+      const cliente = await Cliente.findOne({
         where: {
-          id_cliente: req.params.id,
-          status: 'carrinho'
-        },
-        attributes: {
-          exclude: [ "createdAt", "updatedAt" ]
-        },
-        include: {
-          model: Produto,
-          through: {
-            attributes: []
-          },
-          attributes: {
-            exclude: [ "createdAt", "updatedAt" ]
-          }
+          email : email
         }
       });
-        res.status(200).json(carrinhoDoCliente);
-    } catch (erro) {
+  
+      if(cliente){
+        if(cliente.senha == senha){
+          jwt.sign(
+            { id: cliente.id, email: cliente.email }, 
+            JWTSecret, 
+            { expiresIn: '24h' },
+            (err, token) => {
+              if(err){
+                res.status(400).json('Falha interna!');
+              } else {
+                res.status(200).json({ token: token });
+              }
+            });
+        } else {
+          res.status(401).json( { message: 'Credenciais inválidas!' });
+        }
+      } else {
+        res.status(404).json({ message: 'E-mail não cadastrado no banco!'});
+      }
+    } catch(erro){
       res.status(400).json({ message: erro.message });
     }
   }
-
-   
-async login(req, res) {
-  let errors = validationResult(req);
-  if(!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  try{
-    const { email, senha } = req.body;
-    //Procura um cliente no cadastrado no banco de dados
-    const cliente = await Cliente.findOne({
-      where: {
-        email : email
-      }
-    });
-
-    if(cliente){
-      if(cliente.senha == senha){
-        jwt.sign(
-          { id: cliente.id, email: cliente.email }, 
-          JWTSecret, 
-          { expiresIn: '24h' },
-          (err, token) => {
-            if(err){
-              res.status(400).json('Falha interna!');
-            } else {
-              res.status(200).json({ token: token });
-            }
-          });
-      } else {
-        res.status(401).json( { message: 'Credenciais inválidas!' });
-      }
-    } else {
-      res.status(404).json({ message: 'E-mail não cadastrado no banco!'});
-    }
-  } catch(erro){
-    res.status(400).json({ message: erro.message });
-  }
 }
-  
-}
-
 
 const ClienteController = new Controller();
 module.exports = ClienteController;

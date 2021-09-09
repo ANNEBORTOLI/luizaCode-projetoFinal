@@ -1,19 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { Loja } = require('../../database/models')
+const LojaController = require('../controllers/lojas.controller')
 
 /* GET lojas listing. */
-router.get('/', async function(req, res) {
-  try {
-    const lojas = await Loja.findAll({
-      attributes: {
-        exclude: [ "createdAt", "updatedAt" ]
-      }
-    });
-    res.status(200).json(lojas)
-  } catch (erro) {
-    res.json({ message: erro.message })
-  }
-});
+router.get('/', LojaController.lista);
 
 module.exports = router;
