@@ -1,5 +1,17 @@
 # Omni Channel - LuizaCode
 
+## Instruções para atualizar tabela de Clientes com Coluna Admin
+
+1 - [] Rodar a migration com a alteração na tabela Cliente:
+$ npm run migrate OU $ sequelize db:migrate
+
+2 - [] Rodar a seed de clientes para acrescentar um Administrador:
+$ sequelize db:seed --seed 20210905182117-clientes
+
+3 - [] No Insomnia trocar as seguintes rotas:
+° Listar Clientes --> http://localhost:3000/admin/clientes
+° Retirar Produto em Loja --> http://localhost:3000/admin/pedidos/retirada
+
 ## Criação dos Endpoints
 
 | EndPoints                            | Método HTTP | Descrição                                 |
@@ -17,6 +29,10 @@
 
 ### TODO's
 
+- [x] Iniciar projeto e estruturação MVC
+- [x] Instalação e implementação do bd com do Sequelize
+- [x] Criação de migrations e seeders
+- [x] Criação dos Endpoins
 - [x] Implementar middleware de validação do cadastro do cliente (express-validator);
 - [x] Implementar middleware de validação do login do cliente (express-validator);
 - [x] Implementar middleware de autenticação com JWT;

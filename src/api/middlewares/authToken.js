@@ -12,6 +12,7 @@ const auth = (req, res, next) => {
       } else {
         req.token = token;
         req.clienteId = data.id;
+        req.clienteAdmin = data.isAdmin;
         console.log(data);
         next();
       }

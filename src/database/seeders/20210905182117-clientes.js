@@ -6,6 +6,12 @@ module.exports = {
       "Clientes",
       [
         {
+          nome: "Administrador",
+          email: "admin@email.com",
+          senha: "12345",
+          isAdmin: true,
+        },
+        {
           nome: "Bertha Lutz",
           email: "berthalutz@email.com",
           senha: "12345",
@@ -36,7 +42,9 @@ module.exports = {
           senha: "12345",
         },
       ],
-      {},
+      {
+        ignoreDuplicates: true,
+      },
     );
   },
 

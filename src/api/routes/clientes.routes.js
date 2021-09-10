@@ -22,7 +22,4 @@ router.get("/carrinho", auth, ClienteController.listaCarrinho);
 /* GET lista de todos os pedidos do cliente com seus produtos */
 router.get("/pedidos", auth, ClienteController.listaPedidos);
 
-/* TODO - GET lista de todos os clientes cadastrados */
-router.get("/", ClienteController.lista);
-
 module.exports = router;

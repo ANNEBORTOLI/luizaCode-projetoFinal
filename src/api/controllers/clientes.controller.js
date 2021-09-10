@@ -1,22 +1,10 @@
 const { Cliente, Pedido, Produto } = require("../../database/models");
 const { Op } = require("sequelize");
 const { validationResult } = require("express-validator");
-
-//JWT TOKEN
 const jwt = require("jsonwebtoken");
 const JWTSecret = "mulheresincriveisdoluizacode";
 
 class Controller {
-  /* Lista todos os Clientes */
-  async lista(req, res) {
-    try {
-      const clientes = await Cliente.findAll();
-      res.status(200).json(clientes);
-    } catch (erro) {
-      res.status(400).json({ message: erro.message });
-    }
-  }
-
   /* Cadastra Clientes */
   async cadastra(req, res) {
     let errors = validationResult(req);
@@ -224,7 +212,7 @@ class Controller {
       if (cliente) {
         if (cliente.senha == senha) {
           jwt.sign(
-            { id: cliente.id, email: cliente.email },
+            { id: cliente.id, email: cliente.email, isAdmin: cliente.isAdmin },
             JWTSecret,
             { expiresIn: "24h" },
             (err, token) => {
