@@ -264,11 +264,14 @@
         "tags": [
           "Produtos"
         ],
-        "description": "",
+        "description": "Endpoint para obter uma lista de produtos.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de produtos encontrada com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/Produto"
+            }
           },
           "400": {
             "description": "Desculpe, tivemos um problema com a requisição!"
@@ -284,11 +287,14 @@
         "tags": [
           "Lojas"
         ],
-        "description": "",
+        "description": "Endpoint para obter uma lista de lojas.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de lojas encontrada com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
           },
           "400": {
             "description": "Desculpe, tivemos um problema com a requisição!"
@@ -484,6 +490,55 @@
                 "type": "number",
                 "example": 9
               },
+              "nome": {
+                "type": "string",
+                "example": "Vodka Crystal Head Aurora 750 Ml"
+              },
+              "marca": {
+                "type": "string",
+                "example": "Absolut"
+              },
+              "categoria": {
+                "type": "string",
+                "example": "Destilados, licores e coquetéis"
+              },
+              "tipo": {
+                "type": "string",
+                "example": "bebidas"
+              },
+              "preco": {
+                "type": "number",
+                "example": 898
+              }
+            }
+          }
+        }
+      }
+    },
+    "Carrinho": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 4
+        },
+        "status": {
+          "type": "string",
+          "example": "carrinho"
+        },
+        "id_cliente": {
+          "type": "number",
+          "example": 1
+        },
+        "id_loja": {
+          "type": "number",
+          "example": 6
+        },
+        "Produtos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
               "nome": {
                 "type": "string",
                 "example": "Vodka Crystal Head Aurora 750 Ml"

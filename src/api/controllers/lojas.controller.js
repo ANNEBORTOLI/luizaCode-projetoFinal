@@ -1,13 +1,11 @@
-const { Loja } = require('../../database/models');
+const { Loja } = require('../../database/models')
 
 class Controller {
-
   async lista(req, res) {
-
     /*
     #swagger.tags = ["Lojas"]
-    swagger.description = "Endpoint para obter uma lista de lojas."
-    swagger.responses[200] = {
+    #swagger.description = "Endpoint para obter uma lista de lojas."
+    #swagger.responses[200] = {
       description: "Lista de lojas encontrada com sucesso.",
       schema: { $ref: "#/definitions/Loja"}
     }
@@ -22,9 +20,9 @@ class Controller {
     try {
       const lojas = await Loja.findAll({
         attributes: {
-          exclude: [ "createdAt", "updatedAt" ]
-        }
-      });
+          exclude: ['createdAt', 'updatedAt'],
+        },
+      })
       res.status(200).json(lojas)
     } catch (erro) {
       res.json({ message: erro.message })
@@ -32,5 +30,5 @@ class Controller {
   }
 }
 
-const LojaController = new Controller();
-module.exports = LojaController;
+const LojaController = new Controller()
+module.exports = LojaController
