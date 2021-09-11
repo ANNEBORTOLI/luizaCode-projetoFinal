@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <h3 align="center">Desafio Final - Omni Channel</h3>
+  <h2 align="center">Desafio Omni Channel</h2>
 
   <p align="center">
     Serviço HTTP resolvendo a funcionalidade de Omni Channel para um e-commerce
@@ -45,7 +45,7 @@
 <!-- ABOUT THE PROJECT -->
 ## Sobre o projeto
 
-Esse projeto tem como objetivo o desenvolvimento de um serviço HTTP que resolve a funcionalidade de um Omni Channel do Cliente :handbag:, ou seja, adicionar ou remover produtos do carrinho de compras, bem como consultar a lista dos produtos disponíveis e seu histórico de compras.
+Esse projeto tem como objetivo o desenvolvimento de um serviço HTTP que resolve a funcionalidade de um Omni Channel do Cliente, ou seja, adicionar ou remover produtos do carrinho de compras, bem como consultar a lista dos produtos disponíveis e seu histórico de compras.
 
 ### Tecnologias Utilizadas
 
@@ -105,12 +105,13 @@ A seguir estão as instruções para a instalação, configuração e uso da API
 
 ### Configurando
 
-1. Alterar a configuração dos bancos de dados na pasta [ :card_file_box: luizaCode-projetoFinal\src\database\config\database.js ].
+1. Alterar a configuração dos bancos de dados na pasta [ :open_file_folder:luizaCode-projetoFinal\src\database\config\database.js ].
 Trocar a senha em <i>password</i> e o nome do banco em <i>database</i>.
-<br>
+
+
 [![Configuração do banco][config-bd]]
 
-2. Em caso de conflito de porta, alterar em [ :card_file_box: luizaCode-projetoFinal\bin\www ] na linha 15:
+2. Em caso de conflito de porta, alterar em [ :open_file_folder: luizaCode-projetoFinal\bin\www ] na linha 15:
 ```
 var port = normalizePort(process.env.PORT || '3000') //3000 para uma de sua escolha
 ```
@@ -126,6 +127,9 @@ O usuário tem acesso aos seguintes endpoints:
 
 [![Endpoints Clientes][endpoints-cliente]]
 
+Todos podem acessar a lista de produtos e lojas:
+
+[![Endpoints globais][endpoints-globais]]
 
 Apenas o adminstrador tem acesso aos endpoints:
 - Retirada de produtos
@@ -147,5 +151,6 @@ Apenas o adminstrador tem acesso aos endpoints:
 <!-- MARKDOWN LINKS & IMAGES -->
 [config-bd]: images/config-bd.png
 [endpoints-cliente]: images/ep-cliente.png
+[endpoints-globais]: images/ep-global.png
 [endpoints-admin]: images/ep-admin.png
 
