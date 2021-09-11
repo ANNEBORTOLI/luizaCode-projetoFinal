@@ -36,6 +36,14 @@
       </ul>
     </li>
     <li><a href="#usage">Utilizando a API</a></li>
+      <ul>
+        <li><a href="#endpoints">Endpoints</a></li>
+      </ul>
+        <ul>
+        <li><a href="#swagger">Swagger</a></li>
+      </ul>
+    </li>
+    </li>  
     <li><a href="#contact">Equipe</a></li>
   </ol>
 </details>
@@ -119,6 +127,8 @@ var port = normalizePort(process.env.PORT || '3000') //3000 para uma de sua esco
 <!-- USAGE EXAMPLES -->
 ## Utilizando a API
 
+### Endpoints
+
 O usuário tem acesso aos seguintes endpoints:
 - Cadastro
 - Login
@@ -136,6 +146,11 @@ Apenas o adminstrador tem acesso aos endpoints:
 - Lista de clientes
 
 ![Endpoints Administrador][endpoints-admin]
+
+
+### Rodando aplicação com Swagger
+
+No navegador, digitar <a href="localhost:3000/docs">localhost:3000/docs</a>. Se necessário, trocar 3000 pela porta configurada. 
 
 <!-- CONTACT -->
 ## Equipe
