@@ -109,7 +109,7 @@ A seguir estão as instruções para a instalação, configuração e uso da API
 Trocar a senha em <i>password</i> e o nome do banco em <i>database</i>.
 
 
-[![Configuração do banco][config-bd]]
+![Configuração do banco][config-bd]
 
 2. Em caso de conflito de porta, alterar em [ :open_file_folder: luizaCode-projetoFinal\bin\www ] na linha 15:
 ```
@@ -125,17 +125,17 @@ O usuário tem acesso aos seguintes endpoints:
 - Produtos
 - Lojas
 
-[![Endpoints Clientes][endpoints-cliente]]
+![Endpoints Clientes][endpoints-cliente]
 
 Todos podem acessar a lista de produtos e lojas:
 
-[![Endpoints globais][endpoints-globais]]
+![Endpoints globais][endpoints-globais]
 
 Apenas o adminstrador tem acesso aos endpoints:
 - Retirada de produtos
 - Lista de clientes
 
-[![Endpoints Administrador][endpoints-admin]]
+![Endpoints Administrador][endpoints-admin]
 
 <!-- CONTACT -->
 ## Equipe
