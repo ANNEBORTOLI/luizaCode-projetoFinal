@@ -62,6 +62,6 @@ $ sequelize db:seed --seed 20210905182117-clientes
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)
 - [Gabriela Tavares](https://github.com/GabiTavaresV)
-- [Jaqueline Vieira de Abreu](https://github.com/jaquelineabreu)
+- [Jaqueline Vieira Abreu](https://github.com/jaquelineabreu)
 - [Rafaela Nakashima](https://github.com/rafanak)
 - [Mariana Aguiar](https://github.com/marianadesouzaaguiar)
