@@ -16,26 +16,26 @@
   <summary>Tabela de conteúdos</summary>
   <ol>
     <li>
-      <a href="#about">Sobre o Projeto</a>
+      <a href="#sobre-o-projeto">Sobre o Projeto</a>
       <ul>
-        <li><a href="#built-with">Tecnologias utilizadas</a></li>
+        <li><a href="#tecnologias-utilizadas">Tecnologias utilizadas</a></li>
       </ul>
     </li>
     <ul>
-        <li><a href="#built-with">Regras de negócio</a></li>
+        <li><a href="#regras-de-negócio">Regras de negócio</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Instruções gerais</a>
+      <a href="#instruções-gerais">Instruções gerais</a>
       <ul>
-        <li><a href="#installation">Instalação</a></li>
+        <li><a href="#instalação">Instalação</a></li>
       </ul>
     </li>
     <ul>
-        <li><a href="#configuration">Configuração</a></li>
+        <li><a href="#configurando">Configuração</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Utilizando a API</a></li>
+    <li><a href="#utilizando-a-api">Utilizando a API</a></li>
       <ul>
         <li><a href="#endpoints">Endpoints</a></li>
       </ul>
@@ -44,7 +44,7 @@
       </ul>
     </li>
     </li>  
-    <li><a href="#contact">Equipe</a></li>
+    <li><a href="#equipe">Equipe</a></li>
   </ol>
 </details>
 
