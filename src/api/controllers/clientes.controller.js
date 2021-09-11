@@ -7,6 +7,29 @@ const JWTSecret = "mulheresincriveisdoluizacode";
 class Controller {
   /* Cadastra Clientes */
   async cadastra(req, res) {
+
+     /*
+      #swagger.tags = [ "Clientes" ]
+      #swagger.description = "Endpoint para cadastro de cliente",
+      #swagger.parameters['Cadastro'] = {
+        in: 'body',
+        description: 'Informações para realização do cadastro',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/NovoCliente'}
+        }
+
+      #swagger.responses[200] = {
+        description: 'E-mail já possui cadastro no banco'
+      }
+      #swagger.responses[201] = {
+        description: 'Cadastro realizado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+*/
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -37,6 +60,32 @@ class Controller {
 
   /* Cria um carrinho e ou Adiciona item no carrinho do Clientes */
   async criaOuAdiciona(req, res) {
+    /*
+
+    #swagger.tags = [ "Clientes" ]
+      #swagger.description = "Endpoint para adicionar um novo produto ao carrinho do cliente",
+      #swagger.parameters['id'] = {
+          in: 'body',
+          description: 'Id do produto adicionado ao carrinho',
+          required: true,
+          type: 'object',
+          schema: { $ref: '#/definitions/Id'}
+        }
+
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+      #swagger.responses[201] = {
+        description: 'Produto adicionado ao carrinho com sucesso!'
+    }
+      #swagger.responses[200] = {
+        description: 'O carrinho já possui um produto do mesmo tipo!'
+    }
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição!'
+    }
+    */
+
     try {
       // Tenta achar um produto com o id enviado.
       const produto = await Produto.findByPk(req.body.id);
@@ -89,6 +138,28 @@ class Controller {
 
   /* Remove item do carrinho do Cliente */
   async remove(req, res) {
+      /*
+      #swagger.tags = [ "Clientes" ]
+      #swagger.description = "Endpoint para excluir um produto do carrinho do cliente"
+      #swagger.parameters['id'] = {
+        in: 'body',
+        description: 'Id do produto a ser excluído',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/Id'}
+      }
+
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+     #swagger.responses[200] = {
+        description: 'Produto excluído do carrinho com sucesso! '
+      }
+
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição!'
+      }
+    */
     try {
       // Encontra o carrinho na tabela Pedidos
       const carrinho = await Pedido.findOne({
@@ -116,6 +187,24 @@ class Controller {
 
   /* Lista os produtos no carrinho do cliente */
   async listaCarrinho(req, res) {
+
+       /*
+      #swagger.tags = ['Clientes']
+      #swagger.description = 'Endpoint para obter a lista dos produtos que se encontram no carrinho do cliente' 
+
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+
+      #swagger.responses[200] = {
+        schema: { $ref: "#/definitions/Carrinho"},
+        description: 'Carrinho encontrado com sucesso'
+    }
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+    */
+
     try {
       const carrinhoDoCliente = await Pedido.findAll({
         where: {
@@ -143,6 +232,23 @@ class Controller {
 
   /* Finaliza compra do Cliente status='realizada' */
   async finalizaCompra(req, res) {
+
+       /*
+      #swagger.tags = [ "Clientes" ]
+      #swagger.description = 'Endpoint que conclui a compra do cliente, modificando o status da compra para realizada'
+      
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+
+      #swagger.responses[200] = {
+        description: 'Compra realizada com sucesso'
+      }
+      #swagger.responses[400] = {
+      description: 'Desculpe, tivemos um problema com a requisição'
+      } 
+    */
+
     try {
       // Gera um id aleatório de 1-6 pq temos 6 lojas
       const idLoja = Math.floor(Math.random() * 6 + 1);
@@ -167,6 +273,22 @@ class Controller {
 
   /* Lista todos os Pedidos e Produtos do Clientes */
   async listaPedidos(req, res) {
+      /*
+      #swagger.tags = ['Clientes']
+      #swagger.description = 'Endpoint para obter a lista de todos os pedidos realizados do cliente' 
+      #swagger.responses[200] = {
+        schema: { $ref: "#/definitions/Pedido"},
+        description: 'Pedidos encontrados'
+      }
+
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+    */
     try {
       const pedidosDoCliente = await Pedido.findAll({
         where: {
@@ -195,6 +317,33 @@ class Controller {
   }
 
   async login(req, res) {
+
+    /*
+    #swagger.tags = [ "Clientes" ]
+      #swagger.description = "Endpoint de login do cliente",
+      #swagger.parameters['Login'] = {
+        in: 'body',
+        description: 'Informações para realização do login',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/LoginCliente'}
+      }
+
+       #swagger.responses[200] = {
+        description: 'Login realizado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+      #swagger.responses[401] = {
+        description: 'Credenciais inválidas'
+      }
+      #swagger.responses[404] = {
+        description: 'E-mail não cadastrado no banco'
+      }
+
+    */
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

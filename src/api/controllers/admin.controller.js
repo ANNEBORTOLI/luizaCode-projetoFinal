@@ -2,6 +2,30 @@ const { Pedido, Cliente } = require("../../database/models");
 
 class Controller {
   async retiraPedido(req, res) {
+
+   /* 
+    #swagger.tags = [ "Administrador" ]
+    #swagger.description = 'Endpoint que finaliza a entrega do pedido ao cliente, modificando o status da compra para retirado'
+
+    #swagger.parameters['id'] = {
+        in: 'body',
+        description: 'Id do pedido a ser retirado',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/Id'}
+      }
+    #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+
+      #swagger.responses[200] = {
+        description: 'Pedido retirado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+  */
+
     try {
       // Check se usuário é administrador
       if (req.clienteAdmin != true) {
@@ -32,6 +56,27 @@ class Controller {
 
   /* Lista todos os Clientes */
   async lista(req, res) {
+
+    /*
+
+    #swagger.tags = [ "Administrador" ]
+      #swagger.description = 'Endpoints lista todos os clientes cadastrados'
+      
+      #swagger.security = [{
+        "apiKeyAuth": []
+      }]
+
+      #swagger.responses[200] = {
+        description: 'Clientes encontrados com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+    */
+
+
+
+
     // Check se usuário é administrador
     if (req.clienteAdmin != true) {
       return res.status(401).json({

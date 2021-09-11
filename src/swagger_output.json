@@ -1,0 +1,522 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Luiza<Code> OmniChannel API - Grupo Bertha Lutz",
+    "description": "Desafio final da 3ª Edição do Luiza<Code>. Desenvolvimento de um serviço HTTP resolvendo a funcionalidade de OmniChannel do cliente"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Clientes",
+      "description": "Endpoints relacionados ao recurso de usuário"
+    },
+    {
+      "name": "Produtos",
+      "description": "Endpoints relacionados ao recurso de produto"
+    },
+    {
+      "name": "Lojas",
+      "description": "Endpoints relacionados ao recurso de loja"
+    },
+    {
+      "name": "Administrador",
+      "description": "Endpoints relacionados ao recurso de pedidos"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "Insira seu token para garantir acesso aos endpoints"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/cliente/": {
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para cadastro de cliente",
+        "parameters": [
+          {
+            "name": "Cadastro",
+            "in": "body",
+            "description": "Informações para realização do cadastro",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/NovoCliente"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "E-mail já possui cadastro no banco"
+          },
+          "201": {
+            "description": "Cadastro realizado com sucesso"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          }
+        }
+      }
+    },
+    "/cliente/login": {
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint de login do cliente",
+        "parameters": [
+          {
+            "name": "Login",
+            "in": "body",
+            "description": "Informações para realização do login",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/LoginCliente"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "401": {
+            "description": "Credenciais inválidas"
+          },
+          "404": {
+            "description": "E-mail não cadastrado no banco"
+          }
+        }
+      }
+    },
+    "/cliente/carrinho": {
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para adicionar um novo produto ao carrinho do cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "Id do produto adicionado ao carrinho",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O carrinho já possui um produto do mesmo tipo!"
+          },
+          "201": {
+            "description": "Produto adicionado ao carrinho com sucesso!"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição!"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para excluir um produto do carrinho do cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "Id do produto a ser excluído",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto excluído do carrinho com sucesso! "
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição!"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint que conclui a compra do cliente, modificando o status da compra para realizada",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Compra realizada com sucesso"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para obter a lista dos produtos que se encontram no carrinho do cliente",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Carrinho encontrado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Carrinho"
+            }
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/cliente/pedidos": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para obter a lista de todos os pedidos realizados do cliente",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Pedidos encontrados",
+            "schema": {
+              "$ref": "#/definitions/Pedido"
+            }
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/produtos/": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição!"
+          },
+          "404": {
+            "description": "Nenhum produto encontrado!"
+          }
+        }
+      }
+    },
+    "/lojas/": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição!"
+          },
+          "404": {
+            "description": "Nenhuma loja encontrada!"
+          }
+        }
+      }
+    },
+    "/admin/pedidos/retirada": {
+      "put": {
+        "tags": [
+          "Administrador"
+        ],
+        "description": "Endpoint que finaliza a entrega do pedido ao cliente, modificando o status da compra para retirado",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "Id do pedido a ser retirado",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido retirado com sucesso"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/clientes": {
+      "get": {
+        "tags": [
+          "Administrador"
+        ],
+        "description": "Endpoints lista todos os clientes cadastrados",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Clientes encontrados com sucesso"
+          },
+          "400": {
+            "description": "Desculpe, tivemos um problema com a requisição"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Produto": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Tequila Gran Patron Anejo 750 Ml"
+        },
+        "marca": {
+          "type": "string",
+          "example": "Patron Anejo"
+        },
+        "categoria": {
+          "type": "string",
+          "example": "Destilados, licores e coquetéis"
+        },
+        "tipo": {
+          "type": "string",
+          "example": "bebidas"
+        },
+        "preco": {
+          "type": "number",
+          "example": 5099.15
+        }
+      }
+    },
+    "Loja": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "nome": {
+          "type": "string",
+          "example": "Magalu Norte-Nordeste"
+        }
+      }
+    },
+    "Cliente": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Bertha Lutz"
+        },
+        "email": {
+          "type": "string",
+          "example": "berthalutz@email.com"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345"
+        }
+      }
+    },
+    "NovoCliente": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Maria da Penha"
+        },
+        "email": {
+          "type": "string",
+          "example": "mpenha@email.com"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345"
+        }
+      },
+      "required": [
+        "nome",
+        "email",
+        "senha"
+      ]
+    },
+    "LoginCliente": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "berthalutz@email.com"
+        },
+        "senha": {
+          "type": "string",
+          "example": "12345"
+        }
+      },
+      "required": [
+        "email",
+        "senha"
+      ]
+    },
+    "Pedido": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 4
+        },
+        "status": {
+          "type": "string",
+          "example": "retirado"
+        },
+        "id_cliente": {
+          "type": "number",
+          "example": 1
+        },
+        "id_loja": {
+          "type": "number",
+          "example": 6
+        },
+        "Produtos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 9
+              },
+              "nome": {
+                "type": "string",
+                "example": "Vodka Crystal Head Aurora 750 Ml"
+              },
+              "marca": {
+                "type": "string",
+                "example": "Absolut"
+              },
+              "categoria": {
+                "type": "string",
+                "example": "Destilados, licores e coquetéis"
+              },
+              "tipo": {
+                "type": "string",
+                "example": "bebidas"
+              },
+              "preco": {
+                "type": "number",
+                "example": 898
+              }
+            }
+          }
+        }
+      }
+    },
+    "Id": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    }
+  }
+}
