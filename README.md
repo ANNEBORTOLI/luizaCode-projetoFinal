@@ -73,9 +73,9 @@ A seguir estão as instruções para a instalação, configuração e uso da API
 ### Instalando
 
 1. Clonar o repositório
-   ```sh
+```sh
    git clone https://github.com/ANNEBORTOLI/luizaCode-projetoFinal.git
-   ```
+```
 
 2. Instalando os pacotes 
 ```sh
@@ -105,11 +105,12 @@ A seguir estão as instruções para a instalação, configuração e uso da API
 
 ### Configurando
 
-1. Alterar a configuração dos bancos de dados na pasta [luizaCode-projetoFinal\src\database\config\database.js].
+1. Alterar a configuração dos bancos de dados na pasta [ :card_file_box: luizaCode-projetoFinal\src\database\config\database.js ].
 Trocar a senha em <i>password</i> e o nome do banco em <i>database</i>.
+<br>
 [![Configuração do banco][config-bd]]
 
-2. Em caso de conflito de porta, alterar em [luizaCode-projetoFinal\bin\www] na linha 15:
+2. Em caso de conflito de porta, alterar em [ :card_file_box: luizaCode-projetoFinal\bin\www ] na linha 15:
 ```
 var port = normalizePort(process.env.PORT || '3000') //3000 para uma de sua escolha
 ```
