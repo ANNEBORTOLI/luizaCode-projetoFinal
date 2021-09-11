@@ -6,7 +6,7 @@ const { validadorDeLogin } = require("../middlewares/validadorDeLogin");
 const auth = require("../middlewares/authToken");
 
 /* POST cadastra um novo cliente. */
-router.post("/", validadorDeCadastro, ClienteController.cadastra);
+router.post("/cadastro", validadorDeCadastro, ClienteController.cadastra);
 /* POST Login cliente. */
 router.post("/login", validadorDeLogin, ClienteController.login);
 
