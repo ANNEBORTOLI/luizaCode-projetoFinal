@@ -1,67 +1,150 @@
-# Omni Channel - LuizaCode
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <h3 align="center">Desafio Final - Omni Channel</h3>
 
-## Instruções para atualizar tabela de Clientes com Coluna Admin
+  <p align="center">
+    Serviço HTTP resolvendo a funcionalidade de Omni Channel para um e-commerce
+    <br />
+  </p>
+</p>
 
-1 - [] Rodar a migration com a alteração na tabela Cliente:
-$ npm run migrate OU $ sequelize db:migrate
 
-2 - [] Rodar a seed de clientes para acrescentar um Administrador:
-$ sequelize db:seed --seed 20210905182117-clientes
 
-3 - [] No Insomnia trocar as seguintes rotas:
-° Listar Clientes --> http://localhost:3000/admin/clientes
-° Retirar Produto em Loja --> http://localhost:3000/admin/pedidos/retirada
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Tabela de conteúdos</summary>
+  <ol>
+    <li>
+      <a href="#about">Sobre o Projeto</a>
+      <ul>
+        <li><a href="#built-with">Tecnologias utilizadas</a></li>
+      </ul>
+    </li>
+    <ul>
+        <li><a href="#built-with">Regras de negócio</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Instruções gerais</a>
+      <ul>
+        <li><a href="#installation">Instalação</a></li>
+      </ul>
+    </li>
+    <ul>
+        <li><a href="#configuration">Configuração</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Utilizando a API</a></li>
+    <li><a href="#contact">Equipe</a></li>
+  </ol>
+</details>
 
-## Criação dos Endpoints
 
-| EndPoints                            | Método HTTP | Descrição                                 |
-| ------------------------------------ | ----------- | ----------------------------------------- |
-| [X] `/lojas`                         | `GET`       | `Listar todas as lojas`                   |
-| [X] `/produtos`                      | `GET`       | `Listar todos os produtos`                |
-| [X] `/cliente`                       | `POST`      | `Cadastrar um cliente`                    |
-| [X] `/cliente/:id/carrinho`          | `POST`      | `Add itens ao carrinho`                   |
-| [X] `/cliente/:id/carrinho/:produto` | `DELETE`    | `Deleta item carrinho`                    |
-| [X] `/cliente/:id/carrinho`          | `GET`       | `Lista produtos no carrinho do cliente`   |
-| [X] `/cliente/:id/carrinho`          | `PUT`       | `Conclui compra - "realizada"`            |
-| [x] `/cliente/pedidos`               | `GET`       | `Listar todos os Pedidos do Cliente`      |
-| [x] `/pedidos/retirar`               | `PUT`       | `Altera status do pedido para "retirada"` |
-| [x] `/login`                         | `POST`      | `Faz login do cliente`                    |
 
-### TODO's
+<!-- ABOUT THE PROJECT -->
+## Sobre o projeto
 
-- [x] Iniciar projeto e estruturação MVC
-- [x] Instalação e implementação do bd com do Sequelize
-- [x] Criação de migrations e seeders
-- [x] Criação dos Endpoins
-- [x] Implementar middleware de validação do cadastro do cliente (express-validator);
-- [x] Implementar middleware de validação do login do cliente (express-validator);
-- [x] Implementar middleware de autenticação com JWT;
-- [] Implementar o Swagger;
-- [] Deixar o README.md bonitão;
-- [] Fazer apresentação do PowerPoint;
+Esse projeto tem como objetivo o desenvolvimento de um serviço HTTP que resolve a funcionalidade de um Omni Channel do Cliente :handbag:, ou seja, adicionar ou remover produtos do carrinho de compras, bem como consultar a lista dos produtos disponíveis e seu histórico de compras.
 
-### Endpoints que o usuário precisa estar autenticado para acessar:
+### Tecnologias Utilizadas
 
-1. Add produto ao carrinho,
-2. Remove produto do carrinho,
-3. Lista carrinho do cliente;
-4. Finaliza Compra;
-5. Lista pedidos do cliente;
+O projeto foi criado usando as tecnologias:
+* [JavaScript]
+* [Node.Js]
+* [PostgreSQL]
+* [Swagger]
 
-# Mensagens de Erro
+### Regras de Negócio
 
-- [] Produto não encontrado: "Uai sô! Produto não cadastrado em nosso sistema!"
-- [] Carrinho Add item: "Eba! Produto adicionado no carrinho!"
-- [] Carrinho Remove item: "Bah tchê! Produto removido do carrinho!"
-- [] Carrinho Produto Repetido: "Eita! Tu já possui um item desse tipo no seu carrinho, visse!"
-- [] Finaliza compra: "Massa! Compra finalizada com sucesso!"
-- [] Cadastro OK: "Trilegal! Cliente cadastrado com sucesso!"
-- [] Cadastro NotOk: "Uai sô! Esse e-mail já está cadastrado em nosso sistema!"
+* Cada cliente deve ter um e-mail cadastrado;
+* O cliente pode adicionar ou remover produtos de seu carrinho e finalizar a compra;
+* O cliente só poderá comprar UM produto por <i>tipo</i>;
+* Ao final da compra o status se altera de <i>carrinho</i> para <i>realizada</i> e uma <i>loja</i> é associada ao <i>pedido</i>;
+* A loja onde a compra foi retirada deve atualizar o status de <i>realizada</i> para <i>retirada</i>;
+* O cliente pode consultar todos os produtos e lojas disponíveis, o carrinho atualizado e o histórico de pedidos;
+* Somente o adminstrador tem acesso à lista de clientes.
 
-## Membros
+<!-- GETTING STARTED -->
+## Instruções Gerais
+
+A seguir estão as instruções para a instalação, configuração e uso da API do projeto.
+
+### Instalando
+
+1. Clonar o repositório
+   ```sh
+   git clone https://github.com/ANNEBORTOLI/luizaCode-projetoFinal.git
+   ```
+
+2. Instalando os pacotes 
+```sh
+    npm install
+```  
+3. Rodar migrations
+```sh
+    npm run migrate
+```  
+-OU-
+
+```sh
+    npx sequelize db:migrate
+```  
+4. Rodar seeders
+```sh
+    npm run seed
+```  
+-OU-
+```sh
+    npx sequelize db:seed:all
+```  
+5. Executar a API localmente
+```sh
+    npm run dev
+```  
+
+### Configurando
+
+1. Alterar a configuração dos bancos de dados na pasta [luizaCode-projetoFinal\src\database\config\database.js].
+Trocar a senha em <i>password</i> e o nome do banco em <i>database</i>.
+[![Configuração do banco][config-bd]]
+
+2. Em caso de conflito de porta, alterar em [luizaCode-projetoFinal\bin\www] na linha 15:
+```
+var port = normalizePort(process.env.PORT || '3000') //3000 para uma de sua escolha
+```
+
+<!-- USAGE EXAMPLES -->
+## Utilizando a API
+
+O usuário tem acesso aos seguintes endpoints:
+- Cadastro
+- Login
+- Produtos
+- Lojas
+
+[![Endpoints Clientes][endpoints-cliente]]
+
+
+Apenas o adminstrador tem acesso aos endpoints:
+- Retirada de produtos
+- Lista de clientes
+
+[![Endpoints Administrador][endpoints-admin]]
+
+<!-- CONTACT -->
+## Equipe
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)
 - [Gabriela Tavares](https://github.com/GabiTavaresV)
 - [Jaqueline Vieira Abreu](https://github.com/jaquelineabreu)
-- [Rafaela Nakashima](https://github.com/rafanak)
 - [Mariana Aguiar](https://github.com/marianadesouzaaguiar)
+- [Rafaela Nakashima](https://github.com/rafanak)
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[config-bd]: images/config-bd.png
+[endpoints-cliente]: images/ep-cliente.png
+[endpoints-admin]: images/ep-admin.png
+
