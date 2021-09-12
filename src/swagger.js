@@ -1,4 +1,7 @@
 const swaggerAutogen = require("swagger-autogen")();
+require("dotenv-safe").config();
+
+const { URL_APLICACAO } = process.env;
 
 const outputFile = "./src/swagger_output.json";
 const endpointFiles = ["./src/app.js"];
@@ -9,7 +12,7 @@ const doc = {
     description:
       "Desafio final da 3ª Edição do Luiza<Code>. Desenvolvimento de um serviço HTTP resolvendo a funcionalidade de OmniChannel do cliente",
   },
-  host: "localhost:3000",
+  host: URL_APLICACAO,
   basePath: "/",
   schemes: ["http", "https"],
   consumes: ["application/json"],

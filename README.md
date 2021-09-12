@@ -125,7 +125,7 @@ A seguir estão as instruções para a instalação, configuração e uso da API
 
 1. Criar um arquivo na raiz do projeto, chamado [.env].
 
-2. Copiar o conteúdo do arquivo [.env.example] e setar com as configurações do seu banco de dados.
+2. Copiar o conteúdo do arquivo [.env.example] e setar com as configurações do seu banco de dados e a URL da aplicação.
 
 ![Configuração do banco][config-bd]
 
