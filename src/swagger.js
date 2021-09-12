@@ -3,15 +3,6 @@ require("dotenv-safe").config();
 
 const { URL_APLICACAO } = process.env;
 
-var opcoes;
-
-// Verifica se está executando no Heroku ou localmente, para ativar ou não o SSL.
-if (process.env.NODE_ENV == "production") {
-  opcoes = ["https"];
-} else {
-  opcoes = ["http"];
-}
-
 const outputFile = "./src/swagger_output.json";
 const endpointFiles = ["./src/app.js"];
 const doc = {
@@ -23,7 +14,7 @@ const doc = {
   },
   host: URL_APLICACAO,
   basePath: "/",
-  schemes: opcoes,
+  schemes: ["http", "https"],
   consumes: ["application/json"],
   produces: ["application/json"],
   tags: [
