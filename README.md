@@ -157,6 +157,7 @@ O usuário tem acesso aos seguintes endpoints:
 
 - Cadastro
 - Login
+- carrinho
 - Produtos
 - Lojas
 
@@ -173,7 +174,7 @@ Apenas o adminstrador tem acesso aos endpoints:
 
 ![Endpoints Administrador][endpoints-admin]
 
-### Rodando aplicação com Swagger
+### Rodando aplicação localmente com Swagger
 
 No navegador, digitar <a href="localhost:3000/docs">localhost:3000/docs</a>. Se necessário, trocar 3000 pela porta configurada.
 
