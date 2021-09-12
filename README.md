@@ -115,7 +115,19 @@ A seguir estão as instruções para a instalação, configuração e uso da API
     npx sequelize db:seed:all
 ```
 
-5. Executar a API localmente
+5. Executar o Swagger
+
+```sh
+    npm run swagger
+```
+
+-OU-
+
+```sh
+    node src/swagger.js
+```
+
+6. Executar a API localmente
 
 ```sh
     npm run dev
