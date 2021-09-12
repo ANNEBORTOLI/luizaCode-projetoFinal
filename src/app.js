@@ -3,9 +3,9 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger_output.json');
-
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger_output.json");
+const cors = require("cors");
 
 const clientesRouter = require("./api/routes/clientes.routes");
 const produtosRouter = require("./api/routes/produtos.routes");
@@ -14,6 +14,7 @@ const adminRouter = require("./api/routes/admin.routes");
 
 const app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
