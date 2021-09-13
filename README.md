@@ -48,7 +48,7 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## Sobre o projeto
+## :notebook_with_decorative_cover: Sobre o projeto
 
 Esse projeto tem como objetivo o desenvolvimento de um serviço HTTP que resolve a funcionalidade de um Omni Channel do Cliente, ou seja, adicionar ou remover produtos do carrinho de compras, bem como consultar a lista dos produtos disponíveis e seu histórico de compras.
 
@@ -56,7 +56,7 @@ Esse projeto tem como objetivo o desenvolvimento de um serviço HTTP que resolve
 
 O projeto foi criado usando as tecnologias:
 
-- [JavaScript]
+- [JavaScript] 
 - [Node.Js]
 - [PostgreSQL]
 - [Swagger]
@@ -73,7 +73,7 @@ O projeto foi criado usando as tecnologias:
 
 <!-- GETTING STARTED -->
 
-## Instruções Gerais
+## :book: Instruções Gerais
 
 A seguir estão as instruções para a instalação, configuração e uso da API do projeto.
 
@@ -149,7 +149,7 @@ var port = normalizePort(process.env.PORT || '3000') //3000 para uma de sua esco
 
 <!-- USAGE EXAMPLES -->
 
-## Utilizando a API
+## :electric_plug: Utilizando a API
 
 ### Endpoints
 
@@ -172,6 +172,9 @@ Apenas o adminstrador tem acesso aos endpoints:
 - Retirada de produtos
 - Lista de clientes
 
+:pushpin: Para fazer uso das rotas administrativas basta logar com o usuário já inserido no Banco de Dados.
+  <p align="center">{ email: admin@email.com, senha: 12345 }</p>
+
 ![Endpoints Administrador][endpoints-admin]
 
 ### Rodando aplicação localmente com Swagger
@@ -180,7 +183,7 @@ No navegador, digitar <a href="localhost:3000/docs">localhost:3000/docs</a>. Se 
 
 <!-- CONTACT -->
 
-## Equipe
+## :womens: Equipe
 
 - [Anne Bortoli](https://github.com/ANNEBORTOLI)
 - [Gabriela Tavares](https://github.com/GabiTavaresV)
