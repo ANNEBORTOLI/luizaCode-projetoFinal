@@ -1,4 +1,4 @@
-const { Produto } = require('../../database/models')
+const ProdutosService = require("../services/produtos.service");
 
 class Controller {
   async lista(req, res) {
@@ -15,20 +15,16 @@ class Controller {
     #swagger.responses[400] = {
         description: 'Desculpe, tivemos um problema com a requisição!'
     }
-    
     */
+
     try {
-      const produtos = await Produto.findAll({
-        attributes: {
-          exclude: ['createdAt', 'updatedAt'],
-        },
-      })
-      res.status(200).json(produtos)
+      const produtos = await ProdutosService.lista();
+      res.status(200).json(produtos);
     } catch (erro) {
-      res.json({ message: erro.message })
+      res.json({ message: erro.message });
     }
   }
 }
 
-const ProdutoController = new Controller()
-module.exports = ProdutoController
+const ProdutoController = new Controller();
+module.exports = ProdutoController;

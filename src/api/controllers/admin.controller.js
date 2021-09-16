@@ -1,9 +1,8 @@
-const { Pedido, Cliente } = require("../../database/models");
+const AdminService = require("../services/admin.service");
 
 class Controller {
   async retiraPedido(req, res) {
-
-   /* 
+    /* 
     #swagger.tags = [ "Administrador" ]
     #swagger.description = 'Endpoint que finaliza a entrega do pedido ao cliente, modificando o status da compra para retirado'
 
@@ -25,38 +24,39 @@ class Controller {
         description: 'Desculpe, tivemos um problema com a requisição'
       }
   */
-
     try {
-      // Check se usuário é administrador
       if (req.clienteAdmin != true) {
         return res.status(401).json({
           message: "Usuário não tem autorização para acessar essa rota!",
         });
       }
-      // Guarda o Pedido dentro do a ser retirado na variável pedido
-      const pedido = await Pedido.findByPk(req.body.id);
+
+      const pedidoId = req.body.id;
+      const pedido = await AdminService.acheUm(pedidoId);
+
       if (!pedido) {
-        return res.status(200).json({ message: "Esse pedido não existe!" });
-      } else {
-        if (pedido.status == "retirado") {
-          return res
-            .status(200)
-            .json({ message: "Esse pedido já foi retirado!" });
-        }
-        //Altera o atributo status de 'realizada' para 'retirada'
-        pedido.status = "retirado";
-        // Salva a alteração no banco de dados
-        await pedido.save();
-        res.status(200).json({ message: "Pedido retirado!" });
+        return res.status(404).json({ message: "Esse pedido não existe!" });
       }
+      if (pedido.status == "carrinho") {
+        return res.status(200).json({
+          message:
+            "Esse pedido ainda está no seu carrinho! Favor finalizar a compra!",
+        });
+      }
+
+      if (pedido.status == "retirado") {
+        return res.status(200).json({ message: "Pedido já foi retirado!" });
+      }
+
+      await AdminService.retira(pedido);
+      return res.status(200).json({ message: "Pedido retirado com sucesso!" });
     } catch (erro) {
       res.status(400).json({ message: erro.message });
     }
   }
 
   /* Lista todos os Clientes */
-  async lista(req, res) {
-
+  async listaClientes(req, res) {
     /*
 
     #swagger.tags = [ "Administrador" ]
@@ -74,9 +74,6 @@ class Controller {
       }
     */
 
-
-
-
     // Check se usuário é administrador
     if (req.clienteAdmin != true) {
       return res.status(401).json({
@@ -84,8 +81,26 @@ class Controller {
       });
     }
     try {
-      const clientes = await Cliente.findAll();
+      const clientes = await AdminService.listaClientes();
       res.status(200).json(clientes);
+    } catch (erro) {
+      res.status(400).json({ message: erro.message });
+    }
+  }
+
+  async pedidosCliente(req, res) {
+    // Check se usuário é administrador
+    if (req.clienteAdmin != true) {
+      return res.status(401).json({
+        message: "Usuário não tem autorização para acessar essa rota!",
+      });
+    }
+    try {
+      const idCliente = req.body.id;
+      const pedidosDoCliente = await AdminService.listaPedidosDoCliente(
+        idCliente,
+      );
+      res.status(200).json(pedidosDoCliente);
     } catch (erro) {
       res.status(400).json({ message: erro.message });
     }

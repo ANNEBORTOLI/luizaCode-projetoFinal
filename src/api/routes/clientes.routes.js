@@ -12,9 +12,9 @@ router.post("/login", validadorDeLogin, ClienteController.login);
 
 /* ROTAS PARA CARRINHO DE COMPRAS */
 /* POST adiciona um produto no carrinho do cliente */
-router.post("/carrinho", auth, ClienteController.criaOuAdiciona);
+router.post("/carrinho", auth, ClienteController.adicionaProduto);
 /* DELETE remove um produto do carrinho do cliente */
-router.delete("/carrinho", auth, ClienteController.remove);
+router.delete("/carrinho", auth, ClienteController.removeProduto);
 /* PUT Finaliza a compra do cliente status='realizada'*/
 router.put("/carrinho", auth, ClienteController.finalizaCompra);
 /* GET lista produtos no carrinho do cliente */

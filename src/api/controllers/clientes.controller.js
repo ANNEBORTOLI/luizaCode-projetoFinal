@@ -1,14 +1,17 @@
 const { Cliente, Pedido, Produto } = require("../../database/models");
-const { Op } = require("sequelize");
+
 const { validationResult } = require("express-validator");
+
+const ClienteService = require("../services/clientes.service");
+const ProdutosService = require("../services/produtos.service");
+
 const jwt = require("jsonwebtoken");
 const JWTSecret = "mulheresincriveisdoluizacode";
 
 class Controller {
   /* Cadastra Clientes */
   async cadastra(req, res) {
-
-     /*
+    /*
       #swagger.tags = [ "Clientes" ]
       #swagger.description = "Endpoint para cadastro de cliente",
       #swagger.parameters['Cadastro'] = {
@@ -25,7 +28,7 @@ class Controller {
       #swagger.responses[201] = {
         description: 'Cadastro realizado com sucesso'
       }
-      #swagger.responses[400] = {
+      #swagger.responses[500] = {
         description: 'Desculpe, tivemos um problema com a requisição'
       }
 */
@@ -36,12 +39,12 @@ class Controller {
     }
 
     try {
-      const [cliente, cadastrado] = await Cliente.findOrCreate({
-        where: { email: req.body.email },
-        defaults: {
-          nome: req.body.nome,
-          senha: req.body.senha,
-        },
+      const { nome, email, senha } = req.body;
+
+      const cadastrado = await ClienteService.fazCadastro({
+        nome,
+        email,
+        senha,
       });
 
       if (cadastrado) {
@@ -54,12 +57,12 @@ class Controller {
         });
       }
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 
   /* Cria um carrinho e ou Adiciona item no carrinho do Clientes */
-  async criaOuAdiciona(req, res) {
+  async adicionaProduto(req, res) {
     /*
 
     #swagger.tags = [ "Clientes" ]
@@ -78,67 +81,48 @@ class Controller {
       #swagger.responses[201] = {
         description: 'Produto adicionado ao carrinho com sucesso!'
     }
-      #swagger.responses[200] = {
+      #swagger.responses[404] = {
+        description: 'Produto não cadastrado no sistema!'
+    }
+      #swagger.responses[409] = {
         description: 'O carrinho já possui um produto do mesmo tipo!'
     }
-      #swagger.responses[400] = {
+      #swagger.responses[500] = {
         description: 'Desculpe, tivemos um problema com a requisição!'
     }
     */
 
     try {
-      // Tenta achar um produto com o id enviado.
-      const produto = await Produto.findByPk(req.body.id);
+      const produto = await ProdutosService.achaUm(req.body.id);
 
-      // Se o produto não foi encontrado
       if (!produto) {
-        res.status(200).json({
+        res.status(404).json({
           message: "Uai sô! Produto não cadastrado em nosso sistema!",
         });
       } else {
-        // Acha um Pedido com status='carrinho' OU cria um novo pedido
-        const [carrinho, criado] = await Pedido.findOrCreate({
-          where: {
-            id_cliente: req.clienteId,
-            status: "carrinho",
-          },
-        });
-
-        // Se não existia um carrinho significa que o carrinho está vazio
-        if (criado) {
-          await carrinho.addProduto(produto);
+        const adicionado = await ClienteService.addProduto(
+          req.clienteId,
+          produto,
+        );
+        if (adicionado) {
           res
             .status(201)
             .json({ message: "Eba! Produto adicionado no carrinho!" });
         } else {
-          // Verifica se tem outros produtos do mesmo tipo
-          const produtosCarrinho = await carrinho.getProdutos({
-            where: { tipo: produto.tipo },
+          res.status(409).json({
+            message:
+              "Eita! Tu já possui um item desse tipo no seu carrinho, visse?!",
           });
-
-          // Se produto do mesmo tipo existir no carrinho
-          if (produtosCarrinho.length != 0) {
-            res.status(200).json({
-              message:
-                "Eita! Tu já possui um item desse tipo no seu carrinho, visse?!",
-            });
-            // ou não existia um produto do mesmo tipo no carrinho.
-          } else {
-            await carrinho.addProduto(produto);
-            res
-              .status(201)
-              .json({ message: "Eba! Produto adicionado no carrinho!" });
-          }
         }
       }
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 
   /* Remove item do carrinho do Cliente */
-  async remove(req, res) {
-      /*
+  async removeProduto(req, res) {
+    /*
       #swagger.tags = [ "Clientes" ]
       #swagger.description = "Endpoint para excluir um produto do carrinho do cliente"
       #swagger.parameters['id'] = {
@@ -155,40 +139,35 @@ class Controller {
      #swagger.responses[200] = {
         description: 'Produto excluído do carrinho com sucesso! '
       }
-
-      #swagger.responses[400] = {
+       #swagger.responses[404] = {
+        description: 'Produto não encontrado em nosso sistema!'
+      }
+      #swagger.responses[500] = {
         description: 'Desculpe, tivemos um problema com a requisição!'
       }
     */
     try {
-      // Encontra o carrinho na tabela Pedidos
-      const carrinho = await Pedido.findOne({
-        where: {
-          id_cliente: req.clienteId,
-          status: "carrinho",
-        },
-      });
-      // Pega o produto que quer deletar pelo id
-      const produto = await Produto.findByPk(req.body.id);
+      const produto = await ProdutosService.achaUm(req.body.id);
       if (!produto) {
-        return res.status(200).json({
+        return res.status(404).json({
           message: "Uai sô! Produto não cadastrado em nosso sistema!",
         });
       }
-      // Remove o produto do carrinho
-      await carrinho.removeProduto(produto);
-      res
-        .status(200)
-        .json({ message: "Bah tchê! Produto removido do carrinho!" });
+
+      const deletado = await ClienteService.delProduto(req.clienteId, produto);
+      if (deletado) {
+        res
+          .status(200)
+          .json({ message: "Bah tchê! Produto removido do carrinho!" });
+      }
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 
   /* Lista os produtos no carrinho do cliente */
   async listaCarrinho(req, res) {
-
-       /*
+    /*
       #swagger.tags = ['Clientes']
       #swagger.description = 'Endpoint para obter a lista dos produtos que se encontram no carrinho do cliente' 
 
@@ -200,40 +179,24 @@ class Controller {
         schema: { $ref: "#/definitions/Carrinho"},
         description: 'Carrinho encontrado com sucesso'
     }
-      #swagger.responses[400] = {
+      #swagger.responses[500] = {
         description: 'Desculpe, tivemos um problema com a requisição'
       }
     */
 
     try {
-      const carrinhoDoCliente = await Pedido.findAll({
-        where: {
-          id_cliente: req.clienteId,
-          status: "carrinho",
-        },
-        attributes: {
-          exclude: ["createdAt", "updatedAt"],
-        },
-        include: {
-          model: Produto,
-          through: {
-            attributes: [],
-          },
-          attributes: {
-            exclude: ["createdAt", "updatedAt"],
-          },
-        },
-      });
+      const carrinhoDoCliente = await ClienteService.listaCarrinho(
+        req.clienteId,
+      );
       res.status(200).json(carrinhoDoCliente);
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 
   /* Finaliza compra do Cliente status='realizada' */
   async finalizaCompra(req, res) {
-
-       /*
+    /*
       #swagger.tags = [ "Clientes" ]
       #swagger.description = 'Endpoint que conclui a compra do cliente, modificando o status da compra para realizada'
       
@@ -244,36 +207,30 @@ class Controller {
       #swagger.responses[200] = {
         description: 'Compra realizada com sucesso'
       }
-      #swagger.responses[400] = {
+      #swagger.responses[500] = {
       description: 'Desculpe, tivemos um problema com a requisição'
       } 
     */
 
     try {
-      // Gera um id aleatório de 1-6 pq temos 6 lojas
-      const idLoja = Math.floor(Math.random() * 6 + 1);
-      // Pega o carrinho o cliente
-      const carrinho = await Pedido.findOne({
-        where: {
-          id_cliente: req.clienteId,
-          status: "carrinho",
-        },
-      });
-
-      // Altera status e inclui um id de loja.
-      carrinho.id_loja = idLoja;
-      carrinho.status = "realizada";
-      // Salva alterações no banco
-      await carrinho.save();
-      res.status(200).json({ message: "Eba! Compra finalizada com sucesso!" });
+      const carrinho = await ClienteService.compraRealizada(req.clienteId);
+      if (!carrinho) {
+        return res
+          .status(404)
+          .json({ message: "Você não possui itens no carrinho!" });
+      } else {
+        res
+          .status(200)
+          .json({ message: "Eba! Compra finalizada com sucesso!" });
+      }
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 
   /* Lista todos os Pedidos e Produtos do Clientes */
   async listaPedidos(req, res) {
-      /*
+    /*
       #swagger.tags = ['Clientes']
       #swagger.description = 'Endpoint para obter a lista de todos os pedidos realizados do cliente' 
       #swagger.responses[200] = {
@@ -285,39 +242,19 @@ class Controller {
         "apiKeyAuth": []
       }]
 
-      #swagger.responses[400] = {
+      #swagger.responses[500] = {
         description: 'Desculpe, tivemos um problema com a requisição'
       }
     */
     try {
-      const pedidosDoCliente = await Pedido.findAll({
-        where: {
-          id_cliente: req.clienteId,
-          status: {
-            [Op.ne]: "carrinho",
-          },
-        },
-        attributes: {
-          exclude: ["createdAt", "updatedAt"],
-        },
-        include: {
-          model: Produto,
-          through: {
-            attributes: [],
-          },
-          attributes: {
-            exclude: ["createdAt", "updatedAt"],
-          },
-        },
-      });
+      const pedidosDoCliente = await ClienteService.listaPedidos(req.clienteId);
       res.status(200).json(pedidosDoCliente);
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 
   async login(req, res) {
-
     /*
     #swagger.tags = [ "Clientes" ]
       #swagger.description = "Endpoint de login do cliente",
@@ -333,7 +270,7 @@ class Controller {
         description: 'Login realizado com sucesso'
       }
       #swagger.responses[400] = {
-        description: 'Desculpe, tivemos um problema com a requisição'
+        description: 'Falha interna'
       }
       #swagger.responses[401] = {
         description: 'Credenciais inválidas'
@@ -341,7 +278,9 @@ class Controller {
       #swagger.responses[404] = {
         description: 'E-mail não cadastrado no banco'
       }
-
+            #swagger.responses[500] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
     */
 
     let errors = validationResult(req);
@@ -351,19 +290,16 @@ class Controller {
 
     try {
       const { email, senha } = req.body;
+
       //Procura um cliente no cadastrado no banco de dados
-      const cliente = await Cliente.findOne({
-        where: {
-          email: email,
-        },
-      });
+      const cliente = await ClienteService.achaCliente({ email });
 
       if (cliente) {
         if (cliente.senha == senha) {
           jwt.sign(
             { id: cliente.id, email: cliente.email, isAdmin: cliente.isAdmin },
             JWTSecret,
-            { expiresIn: "24h" },
+            { expiresIn: "1h" },
             (err, token) => {
               if (err) {
                 res.status(400).json("Falha interna!");
@@ -379,7 +315,7 @@ class Controller {
         res.status(404).json({ message: "E-mail não cadastrado no banco!" });
       }
     } catch (erro) {
-      res.status(400).json({ message: erro.message });
+      res.status(500).json({ message: erro.message });
     }
   }
 }
