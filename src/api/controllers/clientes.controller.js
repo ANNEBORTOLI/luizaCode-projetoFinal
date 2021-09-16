@@ -1,15 +1,11 @@
-const { Cliente, Pedido, Produto } = require("../../database/models");
-
 const { validationResult } = require("express-validator");
-
 const ClienteService = require("../services/clientes.service");
 const ProdutosService = require("../services/produtos.service");
-
 const jwt = require("jsonwebtoken");
 const JWTSecret = "mulheresincriveisdoluizacode";
+const bcrypt = require("bcryptjs");
 
 class Controller {
-  /* Cadastra Clientes */
   async cadastra(req, res) {
     /*
       #swagger.tags = [ "Clientes" ]
@@ -40,11 +36,12 @@ class Controller {
 
     try {
       const { nome, email, senha } = req.body;
+      const senhaCript = bcrypt.hashSync(senha, 10);
 
       const cadastrado = await ClienteService.fazCadastro({
         nome,
         email,
-        senha,
+        senha: senhaCript,
       });
 
       if (cadastrado) {
@@ -61,7 +58,71 @@ class Controller {
     }
   }
 
-  /* Cria um carrinho e ou Adiciona item no carrinho do Clientes */
+  async login(req, res) {
+    /*
+    #swagger.tags = [ "Clientes" ]
+      #swagger.description = "Endpoint de login do cliente",
+      #swagger.parameters['Login'] = {
+        in: 'body',
+        description: 'Informações para realização do login',
+        required: true,
+        type: 'object',
+        schema: { $ref: '#/definitions/LoginCliente'}
+      }
+
+       #swagger.responses[200] = {
+        description: 'Login realizado com sucesso'
+      }
+      #swagger.responses[400] = {
+        description: 'Falha interna'
+      }
+      #swagger.responses[401] = {
+        description: 'Credenciais inválidas'
+      }
+      #swagger.responses[404] = {
+        description: 'E-mail não cadastrado no banco'
+      }
+            #swagger.responses[500] = {
+        description: 'Desculpe, tivemos um problema com a requisição'
+      }
+    */
+
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const { email, senha } = req.body;
+      const cliente = await ClienteService.achaCliente({ email });
+
+      let check = bcrypt.compareSync(senha, cliente.senha);
+
+      if (cliente) {
+        if (check) {
+          jwt.sign(
+            { id: cliente.id, email: cliente.email, isAdmin: cliente.isAdmin },
+            JWTSecret,
+            { expiresIn: "1h" },
+            (err, token) => {
+              if (err) {
+                res.status(400).json("Falha interna!");
+              } else {
+                res.status(200).json({ token: token });
+              }
+            },
+          );
+        } else {
+          res.status(401).json({ message: "Credenciais inválidas!" });
+        }
+      } else {
+        res.status(404).json({ message: "E-mail não cadastrado no banco!" });
+      }
+    } catch (erro) {
+      res.status(500).json({ message: erro.message });
+    }
+  }
+
   async adicionaProduto(req, res) {
     /*
 
@@ -120,7 +181,6 @@ class Controller {
     }
   }
 
-  /* Remove item do carrinho do Cliente */
   async removeProduto(req, res) {
     /*
       #swagger.tags = [ "Clientes" ]
@@ -165,7 +225,6 @@ class Controller {
     }
   }
 
-  /* Lista os produtos no carrinho do cliente */
   async listaCarrinho(req, res) {
     /*
       #swagger.tags = ['Clientes']
@@ -194,7 +253,6 @@ class Controller {
     }
   }
 
-  /* Finaliza compra do Cliente status='realizada' */
   async finalizaCompra(req, res) {
     /*
       #swagger.tags = [ "Clientes" ]
@@ -228,7 +286,6 @@ class Controller {
     }
   }
 
-  /* Lista todos os Pedidos e Produtos do Clientes */
   async listaPedidos(req, res) {
     /*
       #swagger.tags = ['Clientes']
@@ -249,71 +306,6 @@ class Controller {
     try {
       const pedidosDoCliente = await ClienteService.listaPedidos(req.clienteId);
       res.status(200).json(pedidosDoCliente);
-    } catch (erro) {
-      res.status(500).json({ message: erro.message });
-    }
-  }
-
-  async login(req, res) {
-    /*
-    #swagger.tags = [ "Clientes" ]
-      #swagger.description = "Endpoint de login do cliente",
-      #swagger.parameters['Login'] = {
-        in: 'body',
-        description: 'Informações para realização do login',
-        required: true,
-        type: 'object',
-        schema: { $ref: '#/definitions/LoginCliente'}
-      }
-
-       #swagger.responses[200] = {
-        description: 'Login realizado com sucesso'
-      }
-      #swagger.responses[400] = {
-        description: 'Falha interna'
-      }
-      #swagger.responses[401] = {
-        description: 'Credenciais inválidas'
-      }
-      #swagger.responses[404] = {
-        description: 'E-mail não cadastrado no banco'
-      }
-            #swagger.responses[500] = {
-        description: 'Desculpe, tivemos um problema com a requisição'
-      }
-    */
-
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const { email, senha } = req.body;
-
-      //Procura um cliente no cadastrado no banco de dados
-      const cliente = await ClienteService.achaCliente({ email });
-
-      if (cliente) {
-        if (cliente.senha == senha) {
-          jwt.sign(
-            { id: cliente.id, email: cliente.email, isAdmin: cliente.isAdmin },
-            JWTSecret,
-            { expiresIn: "1h" },
-            (err, token) => {
-              if (err) {
-                res.status(400).json("Falha interna!");
-              } else {
-                res.status(200).json({ token: token });
-              }
-            },
-          );
-        } else {
-          res.status(401).json({ message: "Credenciais inválidas!" });
-        }
-      } else {
-        res.status(404).json({ message: "E-mail não cadastrado no banco!" });
-      }
     } catch (erro) {
       res.status(500).json({ message: erro.message });
     }
